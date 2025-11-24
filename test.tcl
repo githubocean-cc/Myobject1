@@ -1,3 +1,21 @@
+set ::__top_name [get_top]
+set ::__top_name_len [string length $::__top_name]
+set ::__param_top_sw [expr {[get_param db.use_hier_name_include_top] == "true"}]
+proc ::__is_obj {obj} {
+	if {[get_instances $obj] != ""} {
+		return 1
+	}
+	if {[get_nets $obj] != ""} {
+		return 1
+	}
+	if {[get_ports $obj] != ""} {
+		return 1
+	}
+	if {[get_pins $obj] != ""} {
+		return 1
+	}
+	return 0
+}
 proc DFT::s_to_e_obj {obj} {
 	## 对[6, 4:3, 1:0]的情况进行递归处理
 	if {[string match {*\[*,*\]} $obj]} {
